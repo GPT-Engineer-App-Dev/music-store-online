@@ -1,9 +1,10 @@
-import { Container, Box, VStack, Text, Button, Flex, Heading } from "@chakra-ui/react";
+import { useState } from 'react';
+import { Button, Text, VStack, Box, Flex, Heading, Container } from '@chakra-ui/react';
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [cart, setCart] = useState([]);
 
   const categories = ["All", "Guitars", "Keyboards", "Drums", "Accessories"];
   const products = [
@@ -16,6 +17,10 @@ const Index = () => {
   const filteredProducts = selectedCategory === "All"
     ? products
     : products.filter(product => product.category === selectedCategory);
+
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
 
   return (
     <Container maxW="container.md" p={4}>
@@ -47,6 +52,9 @@ const Index = () => {
               <Box key={product.id} p={4} borderWidth="1px" borderRadius="md" w="100%">
                 <Text fontSize="xl">{product.name}</Text>
                 <Text fontSize="md" color="gray.500">{product.category}</Text>
+                <Button mt={2} colorScheme="teal" onClick={() => addToCart(product)}>
+                  Add to Cart
+                </Button>
               </Box>
             ))}
           </VStack>
